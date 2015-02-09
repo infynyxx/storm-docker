@@ -25,5 +25,9 @@ ADD storm.yaml $STORM_HOME/conf/storm.yaml
 ADD cluster.xml $STORM_HOME/logback/cluster.xml
 ADD config-supervisord.sh /usr/bin/config-supervisord.sh
 ADD start-supervisor.sh /usr/bin/start-supervisor.sh
+ADD supervisord.conf /etc/supervisor/supervisord.conf
+ADD supervisor.init /etc/init.d/supervisord
 
-RUN echo [supervisord] | tee -a /etc/supervisor/supervisord.conf ; echo nodaemon=true | tee -a /etc/supervisor/supervisord.conf
+RUN chmod +x /etc/init.d/supervisord
+
+RUN service supervisord start
