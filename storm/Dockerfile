@@ -30,4 +30,4 @@ ADD supervisor.init /etc/init.d/supervisord
 
 RUN chmod +x /etc/init.d/supervisord
 
-RUN service supervisord start
+RUN echo [supervisord] | tee -a /etc/supervisor/supervisord.conf ; echo nodaemon=true | tee -a /etc/supervisor/supervisord.conf
