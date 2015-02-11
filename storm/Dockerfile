@@ -8,6 +8,8 @@ RUN apt-get -y install build-essential
 
 RUN apt-get -y install wget
 
+RUN apt-get -y install docker.io openssh-server
+
 RUN wget -q -O - http://mirrors.sonic.net/apache/storm/apache-storm-0.9.3/apache-storm-0.9.3.tar.gz | tar -xzf - -C /opt
 
 RUN apt-get install -y python python-dev python-distribute python-pip

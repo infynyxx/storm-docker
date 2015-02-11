@@ -10,4 +10,4 @@ EXPOSE 8000
 RUN /usr/bin/config-supervisord.sh supervisor
 RUN /usr/bin/config-supervisord.sh logviewer
 
-CMD /etc/init.d/supervisord start
+CMD /usr/bin/start-supervisor.sh
