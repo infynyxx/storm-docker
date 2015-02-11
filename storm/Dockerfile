@@ -29,3 +29,5 @@ ADD supervisord.conf /etc/supervisor/supervisord.conf
 ADD supervisor.init /etc/init.d/supervisord
 
 RUN chmod +x /etc/init.d/supervisord
+
+RUN mkdir -p /etc/supervisor/conf.d
