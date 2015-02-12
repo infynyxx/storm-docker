@@ -4,9 +4,7 @@ set -x
 DRUID_NODE_TYPE=${1:-"coordinator"}
 MEMORY=${JAVA_MEMORY:-"768m"}
 
-#EXAMPLE_SPEC=${EXAMPLE:-"wikipedia"}
-#SPEC="/druid/examples/${EXAMPLE_SPEC}/${EXAMPLE_SPEC}_realtime.spec"
-#IP=$(ip addr | grep 'eth0' | awk '{print $2}' | cut -f1  -d'/' | tail -1)
+echo "Using JVM heap size of $MEMORY for $DRUID_NODE_TYPE"
 
 druid_config_alter(){
   sed -i "$1" /druid/config/$DRUID_NODE_TYPE/runtime.properties
@@ -36,6 +34,12 @@ if [ "$DRUID_NODE_TYPE" = "historical" ]; then
   fi
 fi
 
+setfattr -n user.pax.flags -v "mr" /usr/bin/java
+
+druid_config_add "druid.processing.numThreads=1"
+druid_config_add "druid.server.maxSize=10000000"
+druid_config_add "druid.processing.buffer.sizeBytes=100000"
+
 #if [ "$DRUID_NODE_TYPE" = "coordinator" ]; then
   #sleep 10
   #mysql -u root --password $MYSQL_ROOT_PASSWORD -h mysql -e "GRANT ALL ON druid.* TO 'druid'@'localhost' IDENTIFIED BY 'druid'; CREATE database druid CHARACTER SET utf8;"
@@ -56,7 +60,9 @@ cat /druid/config/$DRUID_NODE_TYPE/runtime.properties
 sleep 5
 
 java -server \
-     -Xmx$MEMORY \
+     -ms$MEMORY \
+     -mx$MEMORY \
+     -XX:+UseG1GC \
      -Duser.timezone=UTC \
      -Dfile.encoding=UTF-8 \
      -cp /druid/lib/*:/druid/config/$DRUID_NODE_TYPE \

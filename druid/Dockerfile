@@ -14,7 +14,7 @@ RUN easy_install pip
 
 RUN pip install supervisor
 
-#ENV DRUID_VER 0.6.171
+#ENV DRUID_VER 0.6.171 <-- this is not working due to MySQL's char set issue
 ENV DRUID_VER 0.6.165
 
 WORKDIR /druid
