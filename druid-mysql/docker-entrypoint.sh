@@ -7,7 +7,7 @@ fi
 
 if [ "$1" = 'mysqld' ]; then
   # read DATADIR from the MySQL config
-  DATADIR="$("$@" --verbose --help 2>/dev/null | awk '$1 == "datadir" { print $2; exit }')"
+  DATADIR="$("$@" --verbose --help 2>/dev/null | awk '$1 == "datadir" { print $2; exit }')"  
 
   if [ ! -d "$DATADIR/mysql" ]; then
     if [ -z "$MYSQL_ROOT_PASSWORD" -a -z "$MYSQL_ALLOW_EMPTY_PASSWORD" ]; then
@@ -42,7 +42,7 @@ if [ "$1" = 'mysqld' ]; then
       if [ "$MYSQL_DATABASE" ]; then
         echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%' ;" >> "$tempSqlFile"
       fi
-    fi        
+    fi
 
     echo 'FLUSH PRIVILEGES ;' >> "$tempSqlFile"
 

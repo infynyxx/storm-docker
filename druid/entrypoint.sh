@@ -60,9 +60,10 @@ cat /druid/config/$DRUID_NODE_TYPE/runtime.properties
 sleep 5
 
 java -server \
-     -ms$MEMORY \
-     -mx$MEMORY \
+     -Xms$MEMORY \
+     -Xmx$MEMORY \
      -XX:+UseG1GC \
+     -XX:MaxDirectMemorySize=5g \
      -Duser.timezone=UTC \
      -Dfile.encoding=UTF-8 \
      -cp /druid/lib/*:/druid/config/$DRUID_NODE_TYPE \

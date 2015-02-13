@@ -43,13 +43,14 @@ COPY docker-entrypoint.sh /entrypoint.sh
 # to fix: Cannot start container 14057cc905a5dc9b1ac43e18c44789be78197da1f21b3b93ec6b0cf3f297aecd: exec: "/entrypoint.sh": permission denied
 RUN chmod 777 /entrypoint.sh # Plz don't do this on production
 
-RUN { \
-    echo '[mysqld]'; \
-    echo 'character-set-server = utf8'; \
+#RUN { \
+#    echo '[mysqld]'; \
+#    echo 'character-set-server = utf8'; \
     #echo 'default-collation = utf8_unicode_ci'; \
-} > /etc/mysql/conf.d/charset.cnf
+#} > /etc/mysql/conf.d/charset.cnf
 
 ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 3306
+
 CMD ["mysqld"]

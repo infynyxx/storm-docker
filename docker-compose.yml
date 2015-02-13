@@ -1,26 +1,17 @@
-zookeeper:
-  image: infynyxx/zookeeper
-  ports:
-    - "49181:2181"
-    - "22"
-
 mysql:
-  build: druid-mysql
+  #build: druid-mysql
+  image: mysql:latest
   environment:
     - MYSQL_ROOT_PASSWORD=doesntreallymatter
     - MYSQL_USER=druid
     - MYSQL_PASSWORD=diurd
     - MYSQL_DATABASE=druid
 
-nimbus:
-  image: infynyxx/storm-nimbus
+zookeeper:
+  image: infynyxx/zookeeper
   ports:
-    - "49773:3773"
-    - "49772:3772"
-    - "49627:6627"
+    - "49181:2181"
     - "22"
-  links:
-    - zookeeper:zk
 
 supervisor:
   image: infynyxx/storm-supervisor
@@ -30,7 +21,7 @@ supervisor:
   links:
     - nimbus:nimbus
     - zookeeper:zk
-    
+
 ui:
   image: infynyxx/storm-ui
   ports:
@@ -76,7 +67,7 @@ druidhistorical:
     - s3_access_key=yolo
     - s3_secret_key=yolo
     - s3_bucket=nomi-druid-dev
-    - JAVA_MEMORY=5g
+    - JAVA_MEMORY=1g
 
 druidbroker:
   build: druid
@@ -94,5 +85,13 @@ druidoverlord:
     - mysql:mysql
   ports:
     - 8000
-  environment:
-    - JAVA_MEMORY=5g
+
+nimbus:
+  image: infynyxx/storm-nimbus
+  ports:
+    - "49773:3773"
+    - "49772:3772"
+    - "49627:6627"
+    - "22"
+  links:
+    - zookeeper:zk
