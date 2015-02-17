@@ -10,7 +10,7 @@ mysql:
 zookeeper:
   image: infynyxx/zookeeper
   ports:
-    - "49181:2181"
+    - "2181:2181"
     - "22"
 
 supervisor:
@@ -34,7 +34,7 @@ ui:
 kafka:
   image: infynyxx/kafka
   ports:
-    - "9092"
+    - "9092:9092"
   links:
     - zookeeper:zk
   environment:
@@ -49,7 +49,7 @@ druidcoordinator:
     - zookeeper:zk
     - mysql:mysql
   ports:
-    - 80:8000
+    - "8002:8002"
   environment:
     - MYSQL_ROOT_PASSWORD=doesntreallymatter
     - MYSQL_USER=druid
@@ -62,7 +62,7 @@ druidhistorical:
   links:
     - zookeeper:zk
   ports:
-    - 8000
+    - "8081:8081"
   environment:
     - s3_access_key=yolo
     - s3_secret_key=yolo
@@ -73,7 +73,7 @@ druidbroker:
   build: druid
   command: broker
   ports:
-    - 8000
+    - "8080:8080"
   links:
     - zookeeper:zk
 
@@ -84,7 +84,7 @@ druidoverlord:
     - zookeeper:zk
     - mysql:mysql
   ports:
-    - 8000
+    - "8087:8087"
 
 nimbus:
   image: infynyxx/storm-nimbus
